@@ -4,15 +4,25 @@ import './App.css'
 
 function App() {
   const [user,setUserdata]=useState([])
+  const [index,setIndex]=useState(1)
 const getData = async () => {
-  const response = await fetch('https://picsum.photos/v2/list?page=3&limit=30');
+  const response = await fetch(`https://picsum.photos/v2/list?page=${index}&limit=6`);
   const jsonData = await response.json();
      setUserdata(jsonData);
 };
+ const handleprev=()=>{
+  if(index>1){
+    setIndex((prev)=>(prev-1))
+  }
+ }
+ const handleNext=()=>{
+  setIndex((prev)=>(prev+1))
+  
+ }
  useEffect(()=>{
 getData()
 
- },[])
+ },[index])
  
   return (
    <>
@@ -35,8 +45,9 @@ getData()
 })}
    </div>
    <div className='flex justify-center gap-2'>
-   <button className='bg-gray-300 p-3 rounded hover:scale-95 hover:bg-gray-500' >Prev</button>
-   <button className='bg-gray-300 p-3 rounded hover:scale-95 hover:bg-gray-500'>Next</button>
+   <button onClick={handleprev} className='bg-gray-300 p-3 rounded hover:scale-95 hover:bg-gray-500' >Prev</button>
+   <h1 className='pt-2'>Page{index}</h1>
+   <button onClick={handleNext} className='bg-gray-300 p-3 rounded hover:scale-95 hover:bg-gray-500'>Next</button>
    </div>
 </div>
    </>
